@@ -1,0 +1,15 @@
+[tuya_devices]
+[tuya_devices.home_alarm]
+type = "WIFI液晶屏报警主机-西语"
+host = "https://openapi.tuyaeu.com"
+client_id = "id123"
+secret = "secret123"
+device_id = "device123"
+
+[tuya_devices.office_alarm]
+name = "Office Alarm"
+type = "WIFI液晶屏报警主机-西语"
+host = "https://openapi.tuyaeu.com"
+client_id = "id123"
+secret = "secret123"
+device_id = "device1234"

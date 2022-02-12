@@ -28,3 +28,27 @@ func TestProcessConfigNoTuyaDevices(t *testing.T) {
 		}
 	}
 }
+
+func TestProcessConfigNoDeviceName(t *testing.T) {
+	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_no_device_name/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without tuya devices should fail.")
+	} else {
+		if err.Error() != "Fatal error config: device home_alarm has no name." {
+			t.Errorf("Error should be \"Fatal error config: device home_alarm has no name.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessConfigRepeatedDeviceName(t *testing.T) {
+	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_repeated_device_name/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without tuya devices should fail.")
+	} else {
+		if err.Error() != "Fatal error config: device name 'Home Alarm' is repeated." {
+			t.Errorf("Error should be \"Fatal error config: device name 'Home Alarm' is repeated.\" but error was '%s'.", err.Error())
+		}
+	}
+}

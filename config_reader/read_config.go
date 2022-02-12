@@ -83,6 +83,9 @@ func ReadConfig() (Config, error) {
 						value := reflect.ValueOf(deviceInfoValueMap[requiredDeviceKey]).Interface().(string)
 						switch requiredDeviceKey {
 						case "name":
+							if _, ok := deviceNames[value]; ok {
+								return config, errors.New("Fatal error config: device name '" + value + "' is repeated.")
+							}
 							device.Name = value
 						case "type":
 							device.DeviceType = value
@@ -93,10 +96,10 @@ func ReadConfig() (Config, error) {
 						case "secret":
 							device.Secret = value
 						case "device_id":
-							device.DeviceID = value
-							if _, ok := deviceIDs[device.DeviceID]; ok {
-								return config, errors.New("Fatal error config: device " + device.DeviceID + " is repeated.")
+							if _, ok := deviceIDs[value]; ok {
+								return config, errors.New("Fatal error config: device ID " + value + " is repeated.")
 							}
+							device.DeviceID = value
 						}
 
 					}
