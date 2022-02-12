@@ -64,51 +64,46 @@ func ReadConfig() (Config, error) {
 			return config, errors.New("Fatal error config: device " + deviceKey + " not a map.")
 		} else {
 
-			if _, ok := deviceNames[deviceKey]; ok {
-				return config, errors.New("Fatal error config: sevice key " + deviceKey + " is repeated.")
-			} else {
+			deviceInfoValueMap := deviceInfoValue.Interface().(map[string]interface{})
+			var device TuyaDevice
 
-				deviceInfoValueMap := deviceInfoValue.Interface().(map[string]interface{})
-				var device TuyaDevice
-
-				keys := make(map[string]bool)
-				for key_name := range deviceInfoValueMap {
-					keys[key_name] = true
-				}
-
-				for _, requiredDeviceKey := range tuyaDevicesRequiredVariables {
-					if _, ok := keys[requiredDeviceKey]; !ok {
-						return config, errors.New("Fatal error config: device " + deviceKey + " has no " + requiredDeviceKey + ".")
-					} else {
-						value := reflect.ValueOf(deviceInfoValueMap[requiredDeviceKey]).Interface().(string)
-						switch requiredDeviceKey {
-						case "name":
-							if _, ok := deviceNames[value]; ok {
-								return config, errors.New("Fatal error config: device name '" + value + "' is repeated.")
-							}
-							device.Name = value
-						case "type":
-							device.DeviceType = value
-						case "host":
-							device.Host = value
-						case "client_id":
-							device.ClientID = value
-						case "secret":
-							device.Secret = value
-						case "device_id":
-							if _, ok := deviceIDs[value]; ok {
-								return config, errors.New("Fatal error config: device ID " + value + " is repeated.")
-							}
-							device.DeviceID = value
-						}
-
-					}
-				}
-
-				deviceNames[device.Name] = true
-				deviceIDs[device.DeviceID] = true
-				devices[device.Name] = device
+			keys := make(map[string]bool)
+			for key_name := range deviceInfoValueMap {
+				keys[key_name] = true
 			}
+
+			for _, requiredDeviceKey := range tuyaDevicesRequiredVariables {
+				if _, ok := keys[requiredDeviceKey]; !ok {
+					return config, errors.New("Fatal error config: device " + deviceKey + " has no " + requiredDeviceKey + ".")
+				} else {
+					value := reflect.ValueOf(deviceInfoValueMap[requiredDeviceKey]).Interface().(string)
+					switch requiredDeviceKey {
+					case "name":
+						if _, ok := deviceNames[value]; ok {
+							return config, errors.New("Fatal error config: device name '" + value + "' is repeated.")
+						}
+						device.Name = value
+					case "type":
+						device.DeviceType = value
+					case "host":
+						device.Host = value
+					case "client_id":
+						device.ClientID = value
+					case "secret":
+						device.Secret = value
+					case "device_id":
+						if _, ok := deviceIDs[value]; ok {
+							return config, errors.New("Fatal error config: device ID " + value + " is repeated.")
+						}
+						device.DeviceID = value
+					}
+
+				}
+			}
+
+			deviceNames[device.Name] = true
+			deviceIDs[device.DeviceID] = true
+			devices[device.Name] = device
 		}
 	}
 	config.Devices = devices

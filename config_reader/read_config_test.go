@@ -52,3 +52,23 @@ func TestProcessConfigRepeatedDeviceName(t *testing.T) {
 		}
 	}
 }
+
+func TestProcessConfigRepeatedDeviceID(t *testing.T) {
+	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_repeated_device_id/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without tuya devices should fail.")
+	} else {
+		if err.Error() != "Fatal error config: device ID device123 is repeated." {
+			t.Errorf("Error should be \"Fatal error config: device ID device123 is repeated.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
+func TestProcessConfigOK(t *testing.T) {
+	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_ok/")
+	_, err := ReadConfig()
+	if err != nil {
+		t.Errorf("ReadConfig method without tuya devices should not fail.")
+	}
+}
