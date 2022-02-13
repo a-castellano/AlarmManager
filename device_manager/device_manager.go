@@ -15,6 +15,7 @@ const (
 	FullyArmed AlarmMode = iota + 1
 	Disarmed             // disarmed
 	HomeArmed            // home
+	Sos                  // sos
 	Unknown
 )
 
@@ -116,13 +117,18 @@ func GetDeviceManager(client http.Client, devices map[string]config.TuyaDevice) 
 						case "home":
 							alarmInfo.AlarmInfo.Mode = HomeArmed
 						case "disarmed":
+							alarmInfo.AlarmInfo.Mode = Disarmed
+						case "arm":
 							alarmInfo.AlarmInfo.Mode = FullyArmed
-						case "armed":
-							alarmInfo.AlarmInfo.Mode = FullyArmed
+						case "sos":
+							alarmInfo.AlarmInfo.Mode = Sos
 						default:
 							alarmInfo.AlarmInfo.Mode = Unknown
 						}
 						masterModeSet = true
+					case "master_state":
+						masterStateValue := fmt.Sprintf("%v", statusTuple.Value)
+						alarmInfo.AlarmInfo.Firing = masterStateValue == "alarm"
 						masterStateSet = true
 					}
 				}
