@@ -36,7 +36,10 @@ func GetToken(client http.Client, device config.TuyaDevice) (string, error) {
 	defer resp.Body.Close()
 	bs, _ := ioutil.ReadAll(resp.Body)
 	ret := TokenResponse{}
-	json.Unmarshal(bs, &ret)
+	unmarshalErr := json.Unmarshal(bs, &ret)
+	if unmarshalErr != nil {
+		return token, unmarshalErr
+	}
 	log.Println("token GET response:", string(bs))
 	token = ret.Result.AccessToken
 
