@@ -1,4 +1,4 @@
-package devices
+package tuyadevice
 
 import (
 	"net/http"

@@ -1,30 +1,28 @@
-package devices
+package tuyadevice
 
 import (
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
-
-	config "github.com/a-castellano/AlarmManager/config_reader"
 )
 
-func buildHeader(req *http.Request, body []byte, device config.TuyaDevice, token string) {
+func (device TuyaDevice) buildHeader(req *http.Request, body []byte) {
 	req.Header.Set("client_id", device.ClientID)
 	req.Header.Set("sign_method", "HMAC-SHA256")
 
-	ts := fmt.Sprint(time.Now().UnixNano() / 1e6)
-	req.Header.Set("t", ts)
+	timeStamp := fmt.Sprint(time.Now().UnixNano() / 1e6)
+	req.Header.Set("t", timeStamp)
 
-	if token != "" {
-		req.Header.Set("access_token", token)
+	if device.Token != "" {
+		req.Header.Set("access_token", device.Token)
 	}
 
-	sign := buildSign(req, body, ts, device, token)
+	sign := device.buildSign(req, body, timeStamp)
 	req.Header.Set("sign", sign)
 }
 
-func getHeaderStr(req *http.Request) string {
+func (device TuyaDevice) getHeaderStr(req *http.Request) string {
 	signHeaderKeys := req.Header.Get("Signature-Headers")
 	if signHeaderKeys == "" {
 		return ""

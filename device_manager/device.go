@@ -9,7 +9,7 @@ import (
 	config "github.com/a-castellano/AlarmManager/config_reader"
 )
 
-func GetDevice(client http.Client, device config.TuyaDevice, token string) ([]byte, error) {
+func GetDevice(client http.Client, device config.TuyaDeviceConfig, token string) ([]byte, error) {
 	method := "GET"
 	body := []byte(``)
 	req, _ := http.NewRequest(method, device.Host+"/v1.0/devices/"+device.DeviceID, bytes.NewReader(body))

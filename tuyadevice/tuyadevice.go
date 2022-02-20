@@ -1,4 +1,4 @@
-package devices
+package tuyadevice
 
 import (
 	"bytes"
@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	config "github.com/a-castellano/AlarmManager/config_reader"
 )
 
 type TokenResponse struct {
@@ -21,14 +19,29 @@ type TokenResponse struct {
 	T       int64 `json:"t"`
 }
 
-func GetToken(client http.Client, device config.TuyaDevice) (string, error) {
-	method := "GET"
+type TokenRetriever interface {
+	RetrieveToken() (string, error)
+}
+
+type TuyaDevice struct {
+	Name         string
+	DeviceType   string
+	Host         string
+	ClientID     string
+	Secret       string
+	DeviceID     string
+	Token        string
+	ExpireTime   int
+	RefreshToken string
+}
+
+func (device TuyaDevice) RetrieveToken(client http.Client) (string, error) {
 	body := []byte(``)
-	req, _ := http.NewRequest(method, device.Host+"/v1.0/token?grant_type=1", bytes.NewReader(body))
+	req, _ := http.NewRequest("GET", device.Host+"/v1.0/token?grant_type=1", bytes.NewReader(body))
 
 	var token string
 
-	buildHeader(req, body, device, token)
+	device.buildHeader(req, body)
 	resp, err := client.Do(req)
 	if err != nil {
 		return token, err
@@ -44,4 +57,5 @@ func GetToken(client http.Client, device config.TuyaDevice) (string, error) {
 	token = ret.Result.AccessToken
 
 	return token, nil
+
 }

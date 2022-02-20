@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
+	tuyadevice "github.com/a-castellano/AlarmManager/tuyadevice"
 )
 
 type AlarmMode int
@@ -77,16 +78,26 @@ type DeviceManager struct {
 	DevicesInfo map[string]Alarm
 }
 
-func GetDeviceManager(client http.Client, devices map[string]config.TuyaDevice) (DeviceManager, error) {
+func createTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice.TuyaDevice {
+
+	device := tuyadevice.TuyaDevice{Name: deviceConfig.Name, DeviceType: deviceConfig.DeviceType, Host: deviceConfig.DeviceType, ClientID: deviceConfig.ClientID, Secret: deviceConfig.Secret, DeviceID: deviceConfig.DeviceID}
+
+	return device
+}
+
+func GetDeviceManager(client http.Client, deviceConfigs map[string]config.TuyaDeviceConfig) (DeviceManager, error) {
 	manager := DeviceManager{}
 	devicesMap := make(map[string]Alarm)
 	manager.DevicesInfo = devicesMap
-	for deviceName, deviceInfo := range devices {
+	for deviceName, deviceInfo := range deviceConfigs {
+
+		device := createTuyaDeviceFromConfig(deviceInfo)
 		token, tokenError := GetToken(client, deviceInfo)
 		if tokenError != nil {
 			return manager, tokenError
 		}
 		tuyaDeviceInfo, tuyaDeviceInfoErr := GetDevice(client, deviceInfo, token)
+		fmt.Println(string(tuyaDeviceInfo))
 		if tuyaDeviceInfoErr != nil {
 			return manager, tuyaDeviceInfoErr
 		}
