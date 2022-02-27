@@ -31,4 +31,6 @@ func main() {
 	}
 	deviceManager, _ := device_manager.GetDeviceManager(client, config.Devices)
 	fmt.Println(deviceManager)
+	deviceManager.RetrieveInfo(client)
+	fmt.Println(deviceManager)
 }
