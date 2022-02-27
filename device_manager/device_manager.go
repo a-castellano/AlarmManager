@@ -1,8 +1,6 @@
 package devices
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -75,12 +73,13 @@ func (a Alarm99AST) ShowInfo() AlarmInfo {
 }
 
 type DeviceManager struct {
+	initiated   bool
 	DevicesInfo map[string]Alarm
 }
 
 func createTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice.TuyaDevice {
 
-	device := tuyadevice.TuyaDevice{Name: deviceConfig.Name, DeviceType: deviceConfig.DeviceType, Host: deviceConfig.DeviceType, ClientID: deviceConfig.ClientID, Secret: deviceConfig.Secret, DeviceID: deviceConfig.DeviceID}
+	device := tuyadevice.TuyaDevice{Name: deviceConfig.Name, DeviceType: deviceConfig.DeviceType, Host: deviceConfig.Host, ClientID: deviceConfig.ClientID, Secret: deviceConfig.Secret, DeviceID: deviceConfig.DeviceID}
 
 	return device
 }
@@ -92,64 +91,69 @@ func GetDeviceManager(client http.Client, deviceConfigs map[string]config.TuyaDe
 	for deviceName, deviceInfo := range deviceConfigs {
 
 		device := createTuyaDeviceFromConfig(deviceInfo)
-		token, tokenError := GetToken(client, deviceInfo)
+		// Retrieve info foreach device
+		fmt.Println(deviceName)
+		fmt.Println(device)
+		tokenError := device.RetrieveToken(client)
 		if tokenError != nil {
+			fmt.Println(tokenError)
 			return manager, tokenError
 		}
-		tuyaDeviceInfo, tuyaDeviceInfoErr := GetDevice(client, deviceInfo, token)
-		fmt.Println(string(tuyaDeviceInfo))
-		if tuyaDeviceInfoErr != nil {
-			return manager, tuyaDeviceInfoErr
-		}
-		switch deviceInfo.DeviceType {
-		case "99AST":
-			alarmInfo := Alarm99AST{}
-			if unmarshalErr := json.Unmarshal(tuyaDeviceInfo, &alarmInfo); unmarshalErr != nil {
-				panic(unmarshalErr)
-			}
-			// Retrieve Alarm Info
-			alarmInfo.AlarmInfo.IP = alarmInfo.Result.IP
-			alarmInfo.AlarmInfo.LocalKey = alarmInfo.Result.LocalKey
-			alarmInfo.AlarmInfo.Latitude = alarmInfo.Result.Latitude
-			alarmInfo.AlarmInfo.Longitude = alarmInfo.Result.Longitude
-			alarmInfo.AlarmInfo.Online = alarmInfo.Result.Online
-			// Check master mode value
-			var masterStateSet, masterModeSet bool
-			for _, statusTuple := range alarmInfo.Result.Status {
-				//		fmt.Println(statusTuple.Code)
-				//		fmt.Println(statusTuple.Value)
-				if masterStateSet && masterModeSet {
-					break
-				} else {
-					switch statusTuple.Code {
-					case "master_mode":
-						masterModeValue := fmt.Sprintf("%v", statusTuple.Value)
-						switch masterModeValue {
-						case "home":
-							alarmInfo.AlarmInfo.Mode = HomeArmed
-						case "disarmed":
-							alarmInfo.AlarmInfo.Mode = Disarmed
-						case "arm":
-							alarmInfo.AlarmInfo.Mode = FullyArmed
-						case "sos":
-							alarmInfo.AlarmInfo.Mode = Sos
-						default:
-							alarmInfo.AlarmInfo.Mode = Unknown
-						}
-						masterModeSet = true
-					case "master_state":
-						masterStateValue := fmt.Sprintf("%v", statusTuple.Value)
-						alarmInfo.AlarmInfo.Firing = masterStateValue == "alarm"
-						masterStateSet = true
-					}
-				}
-			}
-			manager.DevicesInfo[deviceName] = alarmInfo
-		default:
-			errorString := fmt.Sprintf("Alarm %s type %s not supported", deviceInfo.Name, deviceInfo.DeviceType)
-			return manager, errors.New(errorString)
-		}
-		//fmt.Println(string(tuyaDeviceInfo))
+		fmt.Println(device.Token)
+		//		tuyaDeviceInfo, tuyaDeviceInfoErr := GetDevice(client, deviceInfo)
+		//		fmt.Println(string(tuyaDeviceInfo))
+		//		if tuyaDeviceInfoErr != nil {
+		//			return manager, tuyaDeviceInfoErr
+		//		}
+		//		switch deviceInfo.DeviceType {
+		//		case "99AST":
+		//			alarmInfo := Alarm99AST{}
+		//			if unmarshalErr := json.Unmarshal(tuyaDeviceInfo, &alarmInfo); unmarshalErr != nil {
+		//				panic(unmarshalErr)
+		//			}
+		//			// Retrieve Alarm Info
+		//			alarmInfo.AlarmInfo.IP = alarmInfo.Result.IP
+		//			alarmInfo.AlarmInfo.LocalKey = alarmInfo.Result.LocalKey
+		//			alarmInfo.AlarmInfo.Latitude = alarmInfo.Result.Latitude
+		//			alarmInfo.AlarmInfo.Longitude = alarmInfo.Result.Longitude
+		//			alarmInfo.AlarmInfo.Online = alarmInfo.Result.Online
+		//			// Check master mode value
+		//			var masterStateSet, masterModeSet bool
+		//			for _, statusTuple := range alarmInfo.Result.Status {
+		//				//		fmt.Println(statusTuple.Code)
+		//				//		fmt.Println(statusTuple.Value)
+		//				if masterStateSet && masterModeSet {
+		//					break
+		//				} else {
+		//					switch statusTuple.Code {
+		//					case "master_mode":
+		//						masterModeValue := fmt.Sprintf("%v", statusTuple.Value)
+		//						switch masterModeValue {
+		//						case "home":
+		//							alarmInfo.AlarmInfo.Mode = HomeArmed
+		//						case "disarmed":
+		//							alarmInfo.AlarmInfo.Mode = Disarmed
+		//						case "arm":
+		//							alarmInfo.AlarmInfo.Mode = FullyArmed
+		//						case "sos":
+		//							alarmInfo.AlarmInfo.Mode = Sos
+		//						default:
+		//							alarmInfo.AlarmInfo.Mode = Unknown
+		//						}
+		//						masterModeSet = true
+		//					case "master_state":
+		//						masterStateValue := fmt.Sprintf("%v", statusTuple.Value)
+		//						alarmInfo.AlarmInfo.Firing = masterStateValue == "alarm"
+		//						masterStateSet = true
+		//					}
+		//				}
+		//			}
+		//			manager.DevicesInfo[deviceName] = alarmInfo
+		//		default:
+		//			errorString := fmt.Sprintf("Alarm %s type %s not supported", deviceInfo.Name, deviceInfo.DeviceType)
+		//			return manager, errors.New(errorString)
+		//		}
+		//		//fmt.Println(string(tuyaDeviceInfo))
 	}
 	return manager, nil
 }

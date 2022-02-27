@@ -20,7 +20,7 @@ type TokenResponse struct {
 }
 
 type TokenRetriever interface {
-	RetrieveToken() (string, error)
+	RetrieveToken() error
 }
 
 type TuyaDevice struct {
@@ -35,27 +35,44 @@ type TuyaDevice struct {
 	RefreshToken string
 }
 
-func (device TuyaDevice) RetrieveToken(client http.Client) (string, error) {
+func (device *TuyaDevice) RetrieveToken(client http.Client) error {
 	body := []byte(``)
 	req, _ := http.NewRequest("GET", device.Host+"/v1.0/token?grant_type=1", bytes.NewReader(body))
-
-	var token string
 
 	device.buildHeader(req, body)
 	resp, err := client.Do(req)
 	if err != nil {
-		return token, err
+		return err
 	}
 	defer resp.Body.Close()
 	bs, _ := ioutil.ReadAll(resp.Body)
 	ret := TokenResponse{}
 	unmarshalErr := json.Unmarshal(bs, &ret)
 	if unmarshalErr != nil {
-		return token, unmarshalErr
+		return unmarshalErr
 	}
 	log.Println("token GET response:", string(bs))
-	token = ret.Result.AccessToken
+	device.Token = ret.Result.AccessToken
+	device.ExpireTime = ret.Result.ExpireTime
+	device.RefreshToken = ret.Result.RefreshToken
 
-	return token, nil
+	return nil
 
+}
+
+func (device TuyaDevice) GetDeviceInfo(client http.Client) ([]byte, error) {
+	method := "GET"
+	body := []byte(``)
+	req, _ := http.NewRequest(method, device.Host+"/v1.0/devices/"+device.DeviceID, bytes.NewReader(body))
+
+	device.buildHeader(req, body)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return []byte(``), err
+	}
+	defer resp.Body.Close()
+	bs, _ := ioutil.ReadAll(resp.Body)
+	log.Println("resp:", string(bs))
+	return bs, nil
 }
