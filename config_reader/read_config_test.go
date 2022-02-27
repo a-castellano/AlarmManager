@@ -17,7 +17,7 @@ func TestProcessNoConfigFilePresent(t *testing.T) {
 	}
 }
 
-func TestProcessConfigNoTuyaDevices(t *testing.T) {
+func TestProcessConfigNoTuyaDeviceConfigs(t *testing.T) {
 	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_no_tuya_devices/")
 	_, err := ReadConfig()
 	if err == nil {

@@ -7,7 +7,7 @@ import (
 	viperLib "github.com/spf13/viper"
 )
 
-type TuyaDevice struct {
+type TuyaDeviceConfig struct {
 	Name       string
 	DeviceType string
 	Host       string
@@ -17,7 +17,7 @@ type TuyaDevice struct {
 }
 
 type Config struct {
-	Devices map[string]TuyaDevice
+	Devices map[string]TuyaDeviceConfig
 }
 
 func ReadConfig() (Config, error) {
@@ -53,7 +53,7 @@ func ReadConfig() (Config, error) {
 		}
 	}
 
-	devices := make(map[string]TuyaDevice)
+	devices := make(map[string]TuyaDeviceConfig)
 	deviceIDs := make(map[string]bool)
 	deviceNames := make(map[string]bool)
 	readedDevices := viper.GetStringMap("tuya_devices")
@@ -65,7 +65,7 @@ func ReadConfig() (Config, error) {
 		} else {
 
 			deviceInfoValueMap := deviceInfoValue.Interface().(map[string]interface{})
-			var device TuyaDevice
+			var device TuyaDeviceConfig
 
 			keys := make(map[string]bool)
 			for key_name := range deviceInfoValueMap {
