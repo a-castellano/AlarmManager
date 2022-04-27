@@ -36,25 +36,33 @@ type TuyaDevice struct {
 	RefreshToken    string
 }
 
-func (device *TuyaDevice) UpdateToken(client http.Client) error {
+func (device *TuyaDevice) updateToken(client http.Client) error {
 
 	now := time.Now()
 	currentTimestamp := now.Unix()
-	if device.TokenExpireTime-currentTimestamp < 600 {
-		log.Println("Device " + device.Name + " token will expire in less than 10 secons, retrive new token.")
+	log.Println(currentTimestamp)
+	log.Println(device.TokenExpireTime)
+	log.Println(device.TokenExpireTime - currentTimestamp)
+	if device.TokenExpireTime-currentTimestamp < 0 {
+		log.Println("Device " + device.Name + " token has expired, retrive new token.")
 		body := []byte(``)
-		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, bytes.NewReader(body))
+		//req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, bytes.NewReader(body))
+		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, nil)
 
 		device.buildHeader(req, body)
 		resp, err := client.Do(req)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 		defer resp.Body.Close()
+		log.Println(resp.Body)
 		bs, _ := ioutil.ReadAll(resp.Body)
 		ret := TokenResponse{}
 		unmarshalErr := json.Unmarshal(bs, &ret)
 		if unmarshalErr != nil {
+			log.Println(bs)
+			log.Println("_______________")
 			return unmarshalErr
 		}
 		log.Println("refresh token GET response:", string(bs))
@@ -62,6 +70,9 @@ func (device *TuyaDevice) UpdateToken(client http.Client) error {
 		now := time.Now() // current local time
 		device.TokenExpireTime = now.Unix() + int64(ret.Result.TokenExpireTime)
 		device.RefreshToken = ret.Result.RefreshToken
+		log.Println("New token expire time: ", device.TokenExpireTime)
+	} else {
+		log.Println("Device " + device.Name + " token has not expired yet.")
 	}
 	return nil
 }
@@ -91,7 +102,7 @@ func (device *TuyaDevice) RetrieveToken(client http.Client) error {
 
 	} else {
 		// refresh token
-		return device.UpdateToken(client)
+		return device.updateToken(client)
 	}
 	return nil
 
@@ -110,6 +121,7 @@ func (device TuyaDevice) GetDeviceInfo(client http.Client) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 	bs, _ := ioutil.ReadAll(resp.Body)
+
 	log.Println("resp:", string(bs))
 	return bs, nil
 }
