@@ -3,6 +3,8 @@ package tuyadevice
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
+	"log/syslog"
 	"net/http"
 	"testing"
 )
@@ -44,6 +46,37 @@ func TestGetDeviceInfo(t *testing.T) {
 
 	if deviceInfoErr != nil {
 		t.Errorf("Device info retrievement should not fail. Error was %s", deviceInfoErr)
+	}
+
+}
+
+func TestUpdateToken(t *testing.T) {
+	logwriter, e := syslog.New(syslog.LOG_NOTICE, "AlarmManagerTest")
+	if e == nil {
+		log.SetOutput(logwriter)
+		// Remove date prefix
+		log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
+	}
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":{"access_token":"testtoken","expire_time":-1,"refresh_token":"refesh","uid":"bay1635003708553hilW"},"success":true,"t":1644740470593}`))}}}
+
+	clientAfterGet := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":{"access_token":"testtoken","expire_time":2,"refresh_token":"refesh","uid":"bay1635003708553hilW"},"success":true,"t":1644740470593}`))}}}
+
+	device := TuyaDevice{Name: "Test"}
+
+	tokenError := device.RetrieveToken(client)
+
+	if tokenError != nil {
+		t.Errorf("Token retrievement should not fail. Error was %s", tokenError)
+	}
+
+	if device.Token != "testtoken" {
+		t.Errorf("Retrived token should be testtoken, not %s.", device.Token)
+	}
+
+	updateTokenError := device.updateToken(clientAfterGet)
+	if updateTokenError != nil {
+		t.Errorf("Token update should not fail. Error was %s", updateTokenError)
 	}
 
 }
