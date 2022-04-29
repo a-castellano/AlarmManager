@@ -80,3 +80,23 @@ func TestUpdateToken(t *testing.T) {
 	}
 
 }
+
+func TestValidateInvalidDevice(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test"}
+	validationErr := device.Validate()
+	if validationErr == nil {
+		t.Errorf("Device Validation should fail.")
+	}
+
+}
+
+func TestValidateValidDevice(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test", Host: "host.io", ClientID: "clientid", Secret: "secret", DeviceID: "deviceid", DeviceType: "alarm"}
+	validationErr := device.Validate()
+	if validationErr != nil {
+		t.Errorf("Device Validation shouldn't fail. Error was %s", validationErr)
+	}
+
+}
