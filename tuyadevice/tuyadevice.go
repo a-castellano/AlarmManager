@@ -46,13 +46,11 @@ func (device *TuyaDevice) updateToken(client http.Client) error {
 	if device.TokenExpireTime-currentTimestamp < 0 {
 		log.Println("Device " + device.Name + " token has expired, retrive new token.")
 		body := []byte(``)
-		//req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, bytes.NewReader(body))
 		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, nil)
 
 		device.buildHeader(req, body)
 		resp, err := client.Do(req)
 		if err != nil {
-			log.Println(err)
 			return err
 		}
 		defer resp.Body.Close()
@@ -61,8 +59,6 @@ func (device *TuyaDevice) updateToken(client http.Client) error {
 		ret := TokenResponse{}
 		unmarshalErr := json.Unmarshal(bs, &ret)
 		if unmarshalErr != nil {
-			log.Println(bs)
-			log.Println("_______________")
 			return unmarshalErr
 		}
 		log.Println("refresh token GET response:", string(bs))
