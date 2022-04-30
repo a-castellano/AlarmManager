@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
@@ -76,7 +77,7 @@ func (a Alarm99AST) ShowInfo() AlarmInfo {
 
 type DeviceManager struct {
 	initiated   bool
-	DevicesInfo map[string]tuyadevice.TuyaDevice
+	DevicesInfo map[string]tuyadevice.Device
 	AlarmsInfo  map[string]Alarm
 }
 
@@ -87,15 +88,13 @@ func createTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice
 	return device
 }
 
-func GetDeviceManager(client http.Client, deviceConfigs map[string]config.TuyaDeviceConfig) (DeviceManager, error) {
+func Start(client http.Client, devices map[string]tuyadevice.Device) (DeviceManager, error) {
 	manager := DeviceManager{}
-	tuyaDevicesMap := make(map[string]tuyadevice.TuyaDevice)
+	devicesMap := devices
 	alarmsMap := make(map[string]Alarm)
-	manager.DevicesInfo = tuyaDevicesMap
+	manager.DevicesInfo = devicesMap
 	manager.AlarmsInfo = alarmsMap
-	for deviceName, deviceInfo := range deviceConfigs {
-
-		device := createTuyaDeviceFromConfig(deviceInfo)
+	for deviceName, device := range devicesMap {
 		// Retrieve info foreach device
 		tokenError := device.RetrieveToken(client)
 		if tokenError != nil {
@@ -109,18 +108,18 @@ func GetDeviceManager(client http.Client, deviceConfigs map[string]config.TuyaDe
 
 func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 
-	for deviceName, tuyadevice := range manager.DevicesInfo {
-		fmt.Println(deviceName)
-		fmt.Println(tuyadevice)
-		tuyaDeviceInfo, tuyaDeviceInfoErr := tuyadevice.GetDeviceInfo(client)
-		fmt.Println(string(tuyaDeviceInfo))
-		if tuyaDeviceInfoErr != nil {
-			return tuyaDeviceInfoErr
+	for deviceName, device := range manager.DevicesInfo {
+		log.Println("Retrieving info from device ", deviceName)
+		deviceInfo, deviceInfoErr := device.GetDeviceInfo(client)
+		log.Println(string(deviceInfo))
+		if deviceInfoErr != nil {
+			log.Println("Fatal error retrieving info from device ", deviceName)
+			return deviceInfoErr
 		}
-		switch tuyadevice.DeviceType {
+		switch device.GetDeviceType() {
 		case "99AST":
 			alarmInfo := Alarm99AST{}
-			if unmarshalErr := json.Unmarshal(tuyaDeviceInfo, &alarmInfo); unmarshalErr != nil {
+			if unmarshalErr := json.Unmarshal(deviceInfo, &alarmInfo); unmarshalErr != nil {
 				return unmarshalErr
 			}
 			// Retrieve Alarm Info
@@ -160,7 +159,7 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 			}
 			manager.AlarmsInfo[deviceName] = alarmInfo
 		default:
-			errorString := fmt.Sprintf("Alarm %s type %s not supported", deviceName, tuyadevice.DeviceType)
+			errorString := fmt.Sprintf("Alarm %s type %s not supported", deviceName, device.GetDeviceType())
 			return errors.New(errorString)
 		}
 	}

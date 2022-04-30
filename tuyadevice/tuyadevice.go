@@ -22,8 +22,10 @@ type TokenResponse struct {
 	T       int64 `json:"t"`
 }
 
-type TokenRetriever interface {
-	RetrieveToken() error
+type Device interface {
+	GetDeviceInfo(http.Client) ([]byte, error)
+	RetrieveToken(http.Client) error
+	GetDeviceType() string
 }
 
 type TuyaDevice struct {
@@ -38,6 +40,9 @@ type TuyaDevice struct {
 	RefreshToken    string
 }
 
+func (device *TuyaDevice) GetDeviceType() string {
+	return device.DeviceType
+}
 func (device *TuyaDevice) Validate() error {
 	_, err := govalidator.ValidateStruct(device)
 	if err != nil {

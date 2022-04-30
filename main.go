@@ -29,7 +29,7 @@ func main() {
 		log.Fatal(errConfig)
 		return
 	}
-	deviceManager, _ := device_manager.GetDeviceManager(client, config.Devices)
+	deviceManager, _ := device_manager.Start(client, config.Devices)
 	fmt.Println(deviceManager)
 	deviceManager.RetrieveInfo(client)
 	fmt.Println(deviceManager)
