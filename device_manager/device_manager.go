@@ -81,29 +81,34 @@ type DeviceManager struct {
 	AlarmsInfo  map[string]Alarm
 }
 
-func createTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice.TuyaDevice {
+func CreateTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice.TuyaDevice {
 
 	device := tuyadevice.TuyaDevice{Name: deviceConfig.Name, DeviceType: deviceConfig.DeviceType, Host: deviceConfig.Host, ClientID: deviceConfig.ClientID, Secret: deviceConfig.Secret, DeviceID: deviceConfig.DeviceID}
 
 	return device
 }
 
-func Start(client http.Client, devices map[string]tuyadevice.Device) (DeviceManager, error) {
-	manager := DeviceManager{}
-	devicesMap := devices
-	alarmsMap := make(map[string]Alarm)
-	manager.DevicesInfo = devicesMap
-	manager.AlarmsInfo = alarmsMap
-	for deviceName, device := range devicesMap {
+func (manager *DeviceManager) AddDevice(device tuyadevice.Device) error {
+	deviceName := device.GetDeviceName()
+	if _, ok := manager.DevicesInfo[deviceName]; ok {
+		return fmt.Errorf("Device called '%s' hasalready been added to device manager.", deviceName)
+	} else {
+		manager.DevicesInfo[deviceName] = device
+	}
+	return nil
+}
+
+func (manager *DeviceManager) Start(client http.Client) error {
+	for deviceName, device := range manager.DevicesInfo {
 		// Retrieve info foreach device
 		tokenError := device.RetrieveToken(client)
 		if tokenError != nil {
-			return manager, tokenError
+			return tokenError
 		}
 		manager.DevicesInfo[deviceName] = device
 
 	}
-	return manager, nil
+	return nil
 }
 
 func (manager *DeviceManager) RetrieveInfo(client http.Client) error {

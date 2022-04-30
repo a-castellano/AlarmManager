@@ -9,6 +9,7 @@ import (
 
 	config_reader "github.com/a-castellano/AlarmManager/config_reader"
 	device_manager "github.com/a-castellano/AlarmManager/device_manager"
+	"github.com/a-castellano/AlarmManager/tuyadevice"
 )
 
 func main() {
@@ -29,7 +30,17 @@ func main() {
 		log.Fatal(errConfig)
 		return
 	}
-	deviceManager, _ := device_manager.Start(client, config.Devices)
+
+	deviceManager := device_manager.DeviceManager{DevicesInfo: make(map[string]tuyadevice.Device), AlarmsInfo: make(map[string]device_manager.Alarm)}
+	for _, deviceConfig := range config.Devices {
+		device := device_manager.CreateTuyaDeviceFromConfig(deviceConfig)
+		deviceRef := &device
+		addDeviceError := deviceManager.AddDevice(deviceRef)
+		if addDeviceError != nil {
+			log.Fatal(addDeviceError)
+		}
+	}
+	deviceManager.Start(client)
 	fmt.Println(deviceManager)
 	deviceManager.RetrieveInfo(client)
 	fmt.Println(deviceManager)

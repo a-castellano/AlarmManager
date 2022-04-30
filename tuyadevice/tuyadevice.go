@@ -26,6 +26,7 @@ type Device interface {
 	GetDeviceInfo(http.Client) ([]byte, error)
 	RetrieveToken(http.Client) error
 	GetDeviceType() string
+	GetDeviceName() string
 }
 
 type TuyaDevice struct {
@@ -43,6 +44,11 @@ type TuyaDevice struct {
 func (device *TuyaDevice) GetDeviceType() string {
 	return device.DeviceType
 }
+
+func (device *TuyaDevice) GetDeviceName() string {
+	return device.Name
+}
+
 func (device *TuyaDevice) Validate() error {
 	_, err := govalidator.ValidateStruct(device)
 	if err != nil {
