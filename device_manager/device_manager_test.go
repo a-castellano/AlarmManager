@@ -1,12 +1,24 @@
 package devices
 
 import (
+	"bytes"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"testing"
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
 	tuyadevice "github.com/a-castellano/AlarmManager/tuyadevice"
 )
+
+type RoundTripperMock struct {
+	Response *http.Response
+	RespErr  error
+}
+
+func (rtm *RoundTripperMock) RoundTrip(*http.Request) (*http.Response, error) {
+	return rtm.Response, rtm.RespErr
+}
 
 func TestCreateTuyaDevice(t *testing.T) {
 	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "../config_reader/config_files_test/config_ok/")
@@ -52,4 +64,44 @@ func TestAddTwoDevicesWithSameName(t *testing.T) {
 	if addErr == nil {
 		t.Errorf("AddDevice should fail with two devices witch the same name.")
 	}
+}
+
+func TestStart(t *testing.T) {
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":{"access_token":"testtoken","expire_time":7200,"refresh_token":"refesh","uid":"bay1635003708553hilW"},"success":true,"t":1644740470593}`))}}}
+
+	deviceManager := DeviceManager{DevicesInfo: make(map[string]tuyadevice.Device), AlarmsInfo: make(map[string]Alarm)}
+
+	var device tuyadevice.TuyaDevice
+	device.Name = "Test Device"
+
+	deviceRef := &device
+	deviceManager.AddDevice(deviceRef)
+
+	startError := deviceManager.Start(client)
+
+	if startError != nil {
+		t.Errorf("Device Manager start should not fail. Error was %s", startError)
+	}
+
+}
+
+func TestStartFailedToken(t *testing.T) {
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":{"access_token":"testtoken","expire_time":7200,"refresh_token":"refesh","uid":"bay1635003708553hilW"},"success":true,"t":1644740470593`))}}}
+
+	deviceManager := DeviceManager{DevicesInfo: make(map[string]tuyadevice.Device), AlarmsInfo: make(map[string]Alarm)}
+
+	var device tuyadevice.TuyaDevice
+	device.Name = "Test Device"
+
+	deviceRef := &device
+	deviceManager.AddDevice(deviceRef)
+
+	startError := deviceManager.Start(client)
+
+	if startError == nil {
+		t.Errorf("Device Manager start should fail.")
+	}
+
 }

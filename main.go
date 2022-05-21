@@ -41,7 +41,8 @@ func main() {
 		}
 	}
 	deviceManager.Start(client)
-	fmt.Println(deviceManager)
 	deviceManager.RetrieveInfo(client)
-	fmt.Println(deviceManager)
+	fmt.Println(deviceManager.AlarmsInfo)
+	deviceManager.RetrieveInfo(client)
+	fmt.Println(deviceManager.AlarmsInfo)
 }
