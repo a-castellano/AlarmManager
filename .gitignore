@@ -15,3 +15,6 @@
 # vendor/
 main
 config.toml
+
+cover/*
+coverage.html
