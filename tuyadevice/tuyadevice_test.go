@@ -114,3 +114,18 @@ func TestValidateValidDevice(t *testing.T) {
 	}
 
 }
+
+func TestGetDeviceType(t *testing.T) {
+
+	client := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":{"active_time":1634987857,"biz_type":18,"category":"mal","create_time":1620050314,"icon":"smart/icon/ay15427647462366edzT/153535979f068afab73c91841c844c82.png","id":"1234456789cca88fafe1","ip":"199.46.115.128","lat":"37.9988","local_key":"bc10cf0dca9aa13f","lon":"-5.0338","model":"99AST-西语","name":"Multifunction alarm","online":true,"owner_id":"11154007","product_id":"2aelhoqe23e7vxjr","product_name":"Multifunction alarm ","status":[{"code":"master_mode","value":"disarmed"},{"code":"delay_set","value":0},{"code":"alarm_time","value":1},{"code":"switch_alarm_sound","value":true},{"code":"switch_alarm_light","value":false},{"code":"switch_mode_sound","value":true},{"code":"switch_mode_light","value":true},{"code":"switch_kb_sound","value":true},{"code":"switch_kb_light","value":true},{"code":"password_set","value":""},{"code":"charge_state","value":true},{"code":"switch_low_battery","value":false},{"code":"alarm_call_number","value":"AQkAAQ=="},{"code":"alarm_sms_number","value":""},{"code":"switch_alarm_call","value":true},{"code":"switch_alarm_sms","value":true},{"code":"telnet_state","value":"sim_card_no"},{"code":"zone_attribute","value":"disarmed"},{"code":"muffling","value":false},{"code":"alarm_msg","value":"AEEAUABQACAARABlAHMAZQByAG0AYQBkAG8="},{"code":"alarm_delay_time","value":0},{"code":"switch_mode_dl_sound","value":false},{"code":"master_state","value":"normal"},{"code":"master_information","value":""},{"code":"factory_reset","value":false},{"code":"night_light_bright","value":1},{"code":"sub_class","value":"detector"},{"code":"sub_type","value":"motion_sensor"},{"code":"sub_admin","value":"CEAFEQH///8OAHAAYQBzAGkAbABsAG8="},{"code":"sub_state","value":"normal"}],"sub":false,"time_zone":"+01:00","uid":"eujJ01152904a15dpPln","update_time":1639405182,"uuid":"1531440084cca88fafe1"},"success":true,"t":1645128085588,"tid":"62fa5cb3902c11eceec15ef357c3f603"}`))}}}
+
+	device := TuyaDevice{Name: "Test", DeviceType: "TestType"}
+
+	device.GetDeviceInfo(client)
+
+	deviceType := device.GetDeviceType()
+	if deviceType == "" {
+		t.Errorf("Device type should not be an empty string.")
+	}
+
+}
