@@ -129,3 +129,14 @@ func TestGetDeviceType(t *testing.T) {
 	}
 
 }
+
+func TestGetDeviceName(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test", DeviceType: "TestType"}
+
+	deviceName := device.GetDeviceName()
+	if deviceName != "Test" {
+		t.Errorf("Device type should be 'Test', not '%s'.", deviceName)
+	}
+
+}
