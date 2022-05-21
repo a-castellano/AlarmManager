@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/asaskevich/govalidator"
 )
 
 type TokenResponse struct {
@@ -20,20 +22,39 @@ type TokenResponse struct {
 	T       int64 `json:"t"`
 }
 
-type TokenRetriever interface {
-	RetrieveToken() error
+type Device interface {
+	GetDeviceInfo(http.Client) ([]byte, error)
+	RetrieveToken(http.Client) error
+	GetDeviceType() string
+	GetDeviceName() string
 }
 
 type TuyaDevice struct {
-	Name            string
-	DeviceType      string
-	Host            string
-	ClientID        string
-	Secret          string
-	DeviceID        string
+	Name            string `valid:"required"`
+	DeviceType      string `valid:"required"`
+	Host            string `valid:"required"`
+	ClientID        string `valid:"required"`
+	Secret          string `valid:"required"`
+	DeviceID        string `valid:"required"`
 	Token           string
 	TokenExpireTime int64
 	RefreshToken    string
+}
+
+func (device *TuyaDevice) GetDeviceType() string {
+	return device.DeviceType
+}
+
+func (device *TuyaDevice) GetDeviceName() string {
+	return device.Name
+}
+
+func (device *TuyaDevice) Validate() error {
+	_, err := govalidator.ValidateStruct(device)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (device *TuyaDevice) updateToken(client http.Client) error {
