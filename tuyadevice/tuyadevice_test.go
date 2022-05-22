@@ -140,3 +140,39 @@ func TestGetDeviceName(t *testing.T) {
 	}
 
 }
+
+func TestChangeMode(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test", Host: "host.io", ClientID: "clientid", Secret: "secret", DeviceID: "deviceid", DeviceType: "alarm"}
+
+	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":true,"success":true,"t":1653184890385,"tid":"18dd6963d97311eca734f2b4cd1fee5a"}`))}}}
+	changeModeErr := device.ChangeMode(clientChangueModeResponse, "newmode")
+	if changeModeErr != nil {
+		t.Errorf("Device mode change shouldn't fail. Error was %s", changeModeErr)
+	}
+
+}
+
+func TestChangeModeFailed(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test", Host: "host.io", ClientID: "clientid", Secret: "secret", DeviceID: "deviceid", DeviceType: "alarm"}
+
+	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"code":1109,"msg":"param is illegal ,please check it","success":false,"t":1653182849837,"tid":"589da661d96e11eca914e276ec45657f"}`))}}}
+	changeModeErr := device.ChangeMode(clientChangueModeResponse, "newmode")
+	if changeModeErr == nil {
+		t.Errorf("Device mode change should fail.")
+	}
+
+}
+
+func TestChangeModeFailedBecauseJson(t *testing.T) {
+
+	device := TuyaDevice{Name: "Test", Host: "host.io", ClientID: "clientid", Secret: "secret", DeviceID: "deviceid", DeviceType: "alarm"}
+
+	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"code":1109,"msg":"param is illegal ,please check it","success":false,"t":1653182849837,"tid":"589da661d96e11eca914e276ec45657f"`))}}}
+	changeModeErr := device.ChangeMode(clientChangueModeResponse, "newmode")
+	if changeModeErr == nil {
+		t.Errorf("Device mode change should fail.")
+	}
+
+}
