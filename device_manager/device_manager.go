@@ -1,6 +1,7 @@
 package devices
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -227,7 +228,10 @@ func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, 
 func (manager *DeviceManager) Routes() chi.Router {
 	router := chi.NewRouter()
 	router.Get("/devices", manager.ListDevices)
-	//	router.Get("/device/{id}", manager.ShowDeviceInfo)
+	router.Route("/devices/device/{id}", func(r chi.Router) {
+		r.Use(DeviceCtx)
+		r.Get("/", manager.ShowDeviceInfo) // GET /posts/{id} - Read a single post by :id.
+	})
 	return router
 }
 
@@ -239,11 +243,41 @@ type DeviceListResponse struct {
 func (manager *DeviceManager) ListDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	deviceMap := make(map[string]string)
-	for deviceName, device := range manager.DevicesInfo {
+	for deviceID, device := range manager.DevicesInfo {
 		// Retrieve info foreach device
-		deviceMap[device.GetDeviceID()] = deviceName
+		deviceMap[deviceID] = device.GetDeviceName()
 	}
 	jsonResponse := DeviceListResponse{Success: true, Data: deviceMap}
 	jsonString, _ := json.Marshal(jsonResponse)
+	w.Write([]byte(jsonString))
+}
+
+func DeviceCtx(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), "id", chi.URLParam(r, "id"))
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+type DeviceStatusResponse struct {
+	Success bool   `json:"success"`
+	Message string `json:"msg"`
+	Mode    string `json:"mode"`
+	Firing  bool   `json:"firing"`
+}
+
+func (manager *DeviceManager) ShowDeviceInfo(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	deviceID := r.Context().Value("id").(string)
+	var response DeviceStatusResponse
+	if _, ok := manager.DevicesInfo[deviceID]; !ok {
+		response.Success = false
+		response.Message = fmt.Sprintf("Device id '%s' does not exist.", deviceID)
+	} else {
+		response.Success = true
+		response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
+		response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
+	}
+	jsonString, _ := json.Marshal(response)
 	w.Write([]byte(jsonString))
 }
