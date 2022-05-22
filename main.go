@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"log/syslog"
 	"net/http"
@@ -42,7 +41,12 @@ func main() {
 	}
 	deviceManager.Start(client)
 	deviceManager.RetrieveInfo(client)
-	fmt.Println(deviceManager.AlarmsInfo)
+	//	fmt.Println(deviceManager.AlarmsInfo)
 	deviceManager.RetrieveInfo(client)
-	fmt.Println(deviceManager.AlarmsInfo)
+	//	fmt.Println(deviceManager.AlarmsInfo)
+	changeModeErr := deviceManager.ChangeMode(client, "Home Alarm", "Disarmed")
+	if changeModeErr != nil {
+		log.Fatal(changeModeErr)
+	}
+
 }
