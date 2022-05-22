@@ -21,6 +21,20 @@ const (
 	Unknown
 )
 
+var AlarmModeMap = map[string]AlarmMode{
+	"Armed":     FullyArmed,
+	"Disarmed":  Disarmed,
+	"HomeArmed": HomeArmed,
+	"SOS":       Sos,
+}
+
+var AlarmModeAlarmValues = map[AlarmMode]string{
+	FullyArmed: "arm",
+	Disarmed:   "disarmed",
+	HomeArmed:  "home",
+	Sos:        "sos",
+}
+
 type AlarmInfo struct {
 	IP        string
 	LocalKey  string
@@ -34,6 +48,7 @@ type AlarmInfo struct {
 
 type Alarm interface {
 	ShowInfo() AlarmInfo
+	getEquivalentMode(newMode string) (string, error)
 }
 
 type Alarm99ASTResult struct {
@@ -73,6 +88,18 @@ type Alarm99AST struct {
 
 func (a Alarm99AST) ShowInfo() AlarmInfo {
 	return a.AlarmInfo
+}
+
+func (a Alarm99AST) getEquivalentMode(newMode string) (string, error) {
+	var equivalentMode string
+	// Check if newMode is defined
+	if newModeValue, ok := AlarmModeMap[newMode]; ok {
+		equivalentMode = AlarmModeAlarmValues[newModeValue]
+	} else {
+		errorString := fmt.Sprintf("Alarm mode '%s' is not defined.", newMode)
+		return equivalentMode, errors.New(errorString)
+	}
+	return equivalentMode, nil
 }
 
 type DeviceManager struct {
@@ -169,5 +196,27 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 		}
 	}
 	manager.initiated = true
+	return nil
+}
+
+func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, newMode string) error {
+	if !manager.initiated {
+		errorString := fmt.Sprintf("Device has not retrieved devices info yet.")
+		return errors.New(errorString)
+	} // Check if device exists
+	if alarmDevice, ok := manager.AlarmsInfo[deviceName]; !ok {
+		errorString := fmt.Sprintf("Device '%s' is not a managed device.", deviceName)
+		return errors.New(errorString)
+	} else {
+		if equivalentMode, equivalentModeError := alarmDevice.getEquivalentMode(newMode); equivalentModeError != nil {
+			return equivalentModeError
+		} else {
+			changeModeError := manager.DevicesInfo[deviceName].ChangeMode(client, equivalentMode)
+			if changeModeError != nil {
+				return changeModeError
+			}
+		}
+
+	}
 	return nil
 }

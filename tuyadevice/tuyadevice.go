@@ -3,6 +3,8 @@ package tuyadevice
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -22,11 +24,20 @@ type TokenResponse struct {
 	T       int64 `json:"t"`
 }
 
+type ChangeModeResponse struct {
+	Code      int    `json:"code"`
+	Message   string `json:"msg"`
+	Success   bool   `json:"success"`
+	Timestamp int    `json:"t"`
+	TID       string `json:"tid"`
+}
+
 type Device interface {
 	GetDeviceInfo(http.Client) ([]byte, error)
 	RetrieveToken(http.Client) error
 	GetDeviceType() string
 	GetDeviceName() string
+	ChangeMode(http.Client, string) error
 }
 
 type TuyaDevice struct {
@@ -141,4 +152,37 @@ func (device TuyaDevice) GetDeviceInfo(client http.Client) ([]byte, error) {
 
 	log.Println("resp:", string(bs))
 	return bs, nil
+}
+
+func (device TuyaDevice) ChangeMode(client http.Client, mode string) error {
+	log.Println("Changing device " + device.GetDeviceName() + " mode to '" + mode + "'.")
+	method := "POST"
+	commandString := fmt.Sprintf("{\"commands\":[{\"code\":\"master_mode\",\"value\":\"%s\"}]}", mode)
+	body := []byte(commandString)
+	req, _ := http.NewRequest(method, device.Host+"/v1.0/devices/"+device.DeviceID+"/commands", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+
+	device.buildHeader(req, body)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer resp.Body.Close()
+	bs, _ := ioutil.ReadAll(resp.Body)
+
+	log.Println("resp:", string(bs))
+
+	// retrieve Response status
+	response := ChangeModeResponse{}
+	unmarshalErr := json.Unmarshal(bs, &response)
+	if unmarshalErr != nil {
+		return unmarshalErr
+	}
+	if !response.Success {
+		errorString := fmt.Sprintf("Device '%s' failed to change state to %s, error was '%s'.", device.GetDeviceName(), mode, response.Message)
+		return errors.New(errorString)
+	}
+	log.Println("Changing device " + device.GetDeviceName() + " mode to '" + mode + "' succeded.")
+	return nil
 }
