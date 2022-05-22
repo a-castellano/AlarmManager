@@ -9,6 +9,7 @@ import (
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
 	tuyadevice "github.com/a-castellano/AlarmManager/tuyadevice"
+	"github.com/go-chi/chi"
 )
 
 type AlarmMode int
@@ -219,4 +220,28 @@ func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, 
 
 	}
 	return nil
+}
+
+func (manager *DeviceManager) Routes() chi.Router {
+	router := chi.NewRouter()
+	router.Get("/devices", manager.ListDevices)
+	//	router.Get("/device/{id}", manager.ShowDeviceInfo)
+	return router
+}
+
+type DeviceListResponse struct {
+	Success bool              `json:"success"`
+	Data    map[string]string `json:"data"`
+}
+
+func (manager *DeviceManager) ListDevices(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	deviceMap := make(map[string]string)
+	for deviceName, device := range manager.DevicesInfo {
+		// Retrieve info foreach device
+		deviceMap[device.GetDeviceID()] = deviceName
+	}
+	jsonResponse := DeviceListResponse{Success: true, Data: deviceMap}
+	jsonString, _ := json.Marshal(jsonResponse)
+	w.Write([]byte(jsonString))
 }
