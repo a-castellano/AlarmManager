@@ -118,22 +118,23 @@ func CreateTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice
 
 func (manager *DeviceManager) AddDevice(device tuyadevice.Device) error {
 	deviceName := device.GetDeviceName()
-	if _, ok := manager.DevicesInfo[deviceName]; ok {
+	deviceID := device.GetDeviceID()
+	if _, ok := manager.DevicesInfo[deviceID]; ok {
 		return fmt.Errorf("Device called '%s' hasalready been added to device manager.", deviceName)
 	} else {
-		manager.DevicesInfo[deviceName] = device
+		manager.DevicesInfo[deviceID] = device
 	}
 	return nil
 }
 
 func (manager *DeviceManager) Start(client http.Client) error {
-	for deviceName, device := range manager.DevicesInfo {
+	for deviceID, device := range manager.DevicesInfo {
 		// Retrieve info foreach device
 		tokenError := device.RetrieveToken(client)
 		if tokenError != nil {
 			return tokenError
 		}
-		manager.DevicesInfo[deviceName] = device
+		manager.DevicesInfo[deviceID] = device
 
 	}
 	return nil
@@ -141,7 +142,8 @@ func (manager *DeviceManager) Start(client http.Client) error {
 
 func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 
-	for deviceName, device := range manager.DevicesInfo {
+	for deviceID, device := range manager.DevicesInfo {
+		deviceName := device.GetDeviceName()
 		log.Println("Retrieving info from device ", deviceName)
 		deviceInfo, deviceInfoErr := device.GetDeviceInfo(client)
 		log.Println(string(deviceInfo))
@@ -190,7 +192,7 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 					}
 				}
 			}
-			manager.AlarmsInfo[deviceName] = alarmInfo
+			manager.AlarmsInfo[deviceID] = alarmInfo
 		default:
 			errorString := fmt.Sprintf("Alarm %s type %s not supported", deviceName, device.GetDeviceType())
 			return errors.New(errorString)
