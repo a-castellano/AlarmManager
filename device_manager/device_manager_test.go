@@ -347,6 +347,7 @@ func TestChangeAlarmModeNonExistentDevice(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -360,7 +361,7 @@ func TestChangeAlarmModeNonExistentDevice(t *testing.T) {
 	if changeModeError == nil {
 		t.Errorf("Device Manager change mode should fail.")
 	} else {
-		if changeModeError.Error() != "Device 'NonExistentDevice' is not a managed device." {
+		if changeModeError.Error() != "Device id 'NonExistentDevice' is not a managed device." {
 			t.Errorf("Device Manager change mode error should be 'Device 'NonExistentDevice' is not a managed device.' instead of '%s'", changeModeError)
 		}
 	}
