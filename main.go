@@ -14,6 +14,13 @@ import (
 	middleware "github.com/go-chi/chi/v5/middleware"
 )
 
+func UpdateStatus(deviceManager *device_manager.DeviceManager, client http.Client) {
+	for range time.Tick(time.Second * 20) {
+		log.Println("Updating deviceManager status.")
+		deviceManager.RetrieveInfo(client)
+	}
+}
+
 func main() {
 
 	var version string = "0.1"
@@ -71,5 +78,6 @@ func main() {
 	})
 	apiRouter.Mount("/devices", deviceManager.Routes())
 
+	go UpdateStatus(&deviceManager, client)
 	http.ListenAndServe(":3000", apiRouter)
 }
