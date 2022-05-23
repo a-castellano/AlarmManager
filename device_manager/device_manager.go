@@ -283,6 +283,7 @@ func (manager *DeviceManager) ShowDeviceInfo(w http.ResponseWriter, r *http.Requ
 	if _, ok := manager.DevicesInfo[deviceID]; !ok {
 		response.Success = false
 		response.Message = fmt.Sprintf("Device id '%s' does not exist.", deviceID)
+		w.WriteHeader(404)
 	} else {
 		response.Success = true
 		response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
@@ -307,18 +308,20 @@ func (manager *DeviceManager) UpdateStatus(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		response.Success = false
 		response.Message = "Failed to decode Response"
+		w.WriteHeader(400)
 	} else {
 		var client http.Client
 		changeModeErr := manager.ChangeMode(client, deviceID, deviceChangeMode.Mode)
 		if changeModeErr != nil {
-			response.Success = false
 			response.Message = changeModeErr.Error()
+			w.WriteHeader(400)
 		} else {
 			time.Sleep(1 * time.Second)
 			retrieveInfoError := manager.RetrieveInfo(client)
 			if retrieveInfoError != nil {
 				response.Success = false
 				response.Message = retrieveInfoError.Error()
+				w.WriteHeader(400)
 			} else {
 				response.Success = true
 				response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
