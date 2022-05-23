@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"time"
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
 	tuyadevice "github.com/a-castellano/AlarmManager/tuyadevice"
@@ -208,21 +209,21 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 	return nil
 }
 
-func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, newMode string) error {
+func (manager *DeviceManager) ChangeMode(client http.Client, deviceID string, newMode string) error {
 	manager.mutex.Lock()
 	defer manager.mutex.Unlock()
 	if !manager.initiated {
 		errorString := fmt.Sprintf("Device has not retrieved devices info yet.")
 		return errors.New(errorString)
 	} // Check if device exists
-	if alarmDevice, ok := manager.AlarmsInfo[deviceName]; !ok {
-		errorString := fmt.Sprintf("Device '%s' is not a managed device.", deviceName)
+	if alarmDevice, ok := manager.AlarmsInfo[deviceID]; !ok {
+		errorString := fmt.Sprintf("Device id '%s' is not a managed device.", deviceID)
 		return errors.New(errorString)
 	} else {
 		if equivalentMode, equivalentModeError := alarmDevice.getEquivalentMode(newMode); equivalentModeError != nil {
 			return equivalentModeError
 		} else {
-			changeModeError := manager.DevicesInfo[deviceName].ChangeMode(client, equivalentMode)
+			changeModeError := manager.DevicesInfo[deviceID].ChangeMode(client, equivalentMode)
 			if changeModeError != nil {
 				return changeModeError
 			}
@@ -237,7 +238,8 @@ func (manager *DeviceManager) Routes() chi.Router {
 	router.Get("/devices", manager.ListDevices)
 	router.Route("/devices/status/{id}", func(r chi.Router) {
 		r.Use(DeviceCtx)
-		r.Get("/", manager.ShowDeviceInfo) // GET /posts/{id} - Read a single post by :id.
+		r.Get("/", manager.ShowDeviceInfo)
+		r.Put("/", manager.UpdateStatus)
 	})
 	return router
 }
@@ -287,6 +289,46 @@ func (manager *DeviceManager) ShowDeviceInfo(w http.ResponseWriter, r *http.Requ
 		response.Online = manager.AlarmsInfo[deviceID].ShowInfo().Online
 		response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
 	}
+	jsonString, _ := json.Marshal(response)
+	w.Write([]byte(jsonString))
+}
+
+type DeviceChangeStatus struct {
+	Mode string `json:"mode"`
+}
+
+func (manager *DeviceManager) UpdateStatus(w http.ResponseWriter, r *http.Request) {
+	var response DeviceStatusResponse
+	w.Header().Set("Content-Type", "application/json")
+	deviceID := r.Context().Value("id").(string)
+	decoder := json.NewDecoder(r.Body)
+	var deviceChangeMode DeviceChangeStatus
+	err := decoder.Decode(&deviceChangeMode)
+	if err != nil {
+		response.Success = false
+		response.Message = "Failed to decode Response"
+	} else {
+		var client http.Client
+		changeModeErr := manager.ChangeMode(client, deviceID, deviceChangeMode.Mode)
+		if changeModeErr != nil {
+			response.Success = false
+			response.Message = changeModeErr.Error()
+		} else {
+			time.Sleep(1 * time.Second)
+			retrieveInfoError := manager.RetrieveInfo(client)
+			if retrieveInfoError != nil {
+				response.Success = false
+				response.Message = retrieveInfoError.Error()
+			} else {
+				response.Success = true
+				response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
+				response.Online = manager.AlarmsInfo[deviceID].ShowInfo().Online
+				response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
+
+			}
+		}
+	}
+
 	jsonString, _ := json.Marshal(response)
 	w.Write([]byte(jsonString))
 }
