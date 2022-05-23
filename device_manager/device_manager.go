@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 
 	config "github.com/a-castellano/AlarmManager/config_reader"
 	tuyadevice "github.com/a-castellano/AlarmManager/tuyadevice"
@@ -108,6 +109,7 @@ type DeviceManager struct {
 	initiated   bool
 	DevicesInfo map[string]tuyadevice.Device
 	AlarmsInfo  map[string]Alarm
+	mutex       sync.Mutex
 }
 
 func CreateTuyaDeviceFromConfig(deviceConfig config.TuyaDeviceConfig) tuyadevice.TuyaDevice {
@@ -142,6 +144,9 @@ func (manager *DeviceManager) Start(client http.Client) error {
 }
 
 func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
+
+	manager.mutex.Lock()
+	defer manager.mutex.Unlock()
 
 	for deviceID, device := range manager.DevicesInfo {
 		deviceName := device.GetDeviceName()
@@ -204,6 +209,8 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 }
 
 func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, newMode string) error {
+	manager.mutex.Lock()
+	defer manager.mutex.Unlock()
 	if !manager.initiated {
 		errorString := fmt.Sprintf("Device has not retrieved devices info yet.")
 		return errors.New(errorString)
@@ -228,7 +235,7 @@ func (manager *DeviceManager) ChangeMode(client http.Client, deviceName string, 
 func (manager *DeviceManager) Routes() chi.Router {
 	router := chi.NewRouter()
 	router.Get("/devices", manager.ListDevices)
-	router.Route("/devices/device/{id}", func(r chi.Router) {
+	router.Route("/devices/status/{id}", func(r chi.Router) {
 		r.Use(DeviceCtx)
 		r.Get("/", manager.ShowDeviceInfo) // GET /posts/{id} - Read a single post by :id.
 	})
@@ -264,6 +271,7 @@ type DeviceStatusResponse struct {
 	Message string `json:"msg"`
 	Mode    string `json:"mode"`
 	Firing  bool   `json:"firing"`
+	Online  bool   `json:"online"`
 }
 
 func (manager *DeviceManager) ShowDeviceInfo(w http.ResponseWriter, r *http.Request) {
@@ -276,6 +284,7 @@ func (manager *DeviceManager) ShowDeviceInfo(w http.ResponseWriter, r *http.Requ
 	} else {
 		response.Success = true
 		response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
+		response.Online = manager.AlarmsInfo[deviceID].ShowInfo().Online
 		response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
 	}
 	jsonString, _ := json.Marshal(response)
