@@ -2,6 +2,7 @@ package devices
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -189,6 +190,7 @@ func TestRetrieveInfoAlarmDisarmed(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -197,7 +199,8 @@ func TestRetrieveInfoAlarmDisarmed(t *testing.T) {
 
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
-	alarmInfo := deviceManager.AlarmsInfo["Test Device"]
+	fmt.Println(deviceManager.AlarmsInfo)
+	alarmInfo := deviceManager.AlarmsInfo["testid123"]
 
 	if alarmInfo.ShowInfo().Firing != false {
 		t.Errorf("Alarm shouldn't be firing.")
@@ -220,6 +223,7 @@ func TestRetrieveInfoAlarmHome(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -228,7 +232,7 @@ func TestRetrieveInfoAlarmHome(t *testing.T) {
 
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
-	alarmInfo := deviceManager.AlarmsInfo["Test Device"]
+	alarmInfo := deviceManager.AlarmsInfo["testid123"]
 
 	if alarmInfo.ShowInfo().Firing != false {
 		t.Errorf("Alarm shouldn't be firing.")
@@ -251,6 +255,7 @@ func TestRetrieveInfoAlarmArm(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -259,7 +264,7 @@ func TestRetrieveInfoAlarmArm(t *testing.T) {
 
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
-	alarmInfo := deviceManager.AlarmsInfo["Test Device"]
+	alarmInfo := deviceManager.AlarmsInfo["testid123"]
 
 	if alarmInfo.ShowInfo().Firing != false {
 		t.Errorf("Alarm shouldn't be firing.")
@@ -282,6 +287,7 @@ func TestRetrieveInfoAlarmArmFiring(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -290,7 +296,7 @@ func TestRetrieveInfoAlarmArmFiring(t *testing.T) {
 
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
-	alarmInfo := deviceManager.AlarmsInfo["Test Device"]
+	alarmInfo := deviceManager.AlarmsInfo["testid123"]
 
 	if alarmInfo.ShowInfo().Firing != true {
 		t.Errorf("Alarm should be firing.")
@@ -311,6 +317,7 @@ func TestChangeAlarmModeNonRetrievedInfo(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -340,6 +347,7 @@ func TestChangeAlarmModeNonExistentDevice(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -353,7 +361,7 @@ func TestChangeAlarmModeNonExistentDevice(t *testing.T) {
 	if changeModeError == nil {
 		t.Errorf("Device Manager change mode should fail.")
 	} else {
-		if changeModeError.Error() != "Device 'NonExistentDevice' is not a managed device." {
+		if changeModeError.Error() != "Device id 'NonExistentDevice' is not a managed device." {
 			t.Errorf("Device Manager change mode error should be 'Device 'NonExistentDevice' is not a managed device.' instead of '%s'", changeModeError)
 		}
 	}
@@ -371,6 +379,7 @@ func TestChangeAlarmModeNonExistentMode(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -380,7 +389,7 @@ func TestChangeAlarmModeNonExistentMode(t *testing.T) {
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
 	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(``))}}}
-	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "Test Device", "NonExistentMode")
+	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "testid123", "NonExistentMode")
 
 	if changeModeError == nil {
 		t.Errorf("Device Manager change mode should fail bacause mode is 'NonExistentMode'.")
@@ -402,6 +411,7 @@ func TestChangeAlarmFailed(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "testid123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -411,7 +421,7 @@ func TestChangeAlarmFailed(t *testing.T) {
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
 	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"code":1109,"msg":"param is illegal ,please check it","success":false,"t":1653182849837,"tid":"589da661d96e11eca914e276ec45657f"}`))}}}
-	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "Test Device", "Disarmed")
+	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "testid123", "Disarmed")
 
 	if changeModeError == nil {
 		t.Errorf("Device Manager change mode should fail bacause call failed.")
@@ -433,6 +443,7 @@ func TestChangeAlarmFailedBecauseCorruptJson(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "idtest123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -442,7 +453,7 @@ func TestChangeAlarmFailedBecauseCorruptJson(t *testing.T) {
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
 	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"code":1109,"msg":"param is illegal ,please check it","success":false,"t":1653182849837,"tid":"589da661d96e11eca914e276ec45657f"`))}}}
-	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "Test Device", "Disarmed")
+	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "idtest123", "Disarmed")
 
 	if changeModeError == nil {
 		t.Errorf("Device Manager change mode should fail bacause call failed.")
@@ -464,6 +475,7 @@ func TestChangeAlarm(t *testing.T) {
 	var device tuyadevice.TuyaDevice
 	device.Name = "Test Device"
 	device.DeviceType = "99AST"
+	device.DeviceID = "idtest123"
 
 	deviceRef := &device
 	deviceManager.AddDevice(deviceRef)
@@ -473,7 +485,7 @@ func TestChangeAlarm(t *testing.T) {
 	deviceManager.RetrieveInfo(clientRetrieveInfo)
 
 	clientChangueModeResponse := http.Client{Transport: &RoundTripperMock{Response: &http.Response{Body: ioutil.NopCloser(bytes.NewBufferString(`{"result":true,"success":true,"t":1653184890385,"tid":"18dd6963d97311eca734f2b4cd1fee5a"}`))}}}
-	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "Test Device", "Disarmed")
+	changeModeError := deviceManager.ChangeMode(clientChangueModeResponse, "idtest123", "Disarmed")
 
 	if changeModeError != nil {
 		t.Errorf("Device Manager change mode shouldn't fail.")

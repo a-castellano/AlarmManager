@@ -18,6 +18,7 @@ type TuyaDeviceConfig struct {
 
 type Config struct {
 	Devices map[string]TuyaDeviceConfig
+	WebPort int
 }
 
 func ReadConfig() (Config, error) {
@@ -26,9 +27,11 @@ func ReadConfig() (Config, error) {
 
 	var envVariable string = "ALARM_MANAGER_CONFIG_FILE_LOCATION"
 
-	requiredVariables := []string{"tuya_devices"}
+	requiredVariables := []string{"tuya_devices", "web_server"}
 
 	tuyaDevicesRequiredVariables := []string{"name", "type", "host", "client_id", "secret", "device_id"}
+
+	webServerRequiredVariables := []string{"port"}
 
 	viper := viperLib.New()
 
@@ -107,5 +110,12 @@ func ReadConfig() (Config, error) {
 		}
 	}
 	config.Devices = devices
+
+	for _, webServerVariable := range webServerRequiredVariables {
+		if !viper.IsSet("web_server." + webServerVariable) {
+			return config, errors.New("Fatal error config: no web_server " + webServerVariable + " was found.")
+		}
+	}
+	config.WebPort = viper.GetInt("web_server.port")
 	return config, nil
 }

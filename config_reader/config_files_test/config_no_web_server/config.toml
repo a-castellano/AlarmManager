@@ -1,6 +1,4 @@
 [web_server]
-port = 3000
-
 [tuya_devices]
 [tuya_devices.home_alarm]
 name = "Home Alarm"

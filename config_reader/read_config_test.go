@@ -65,6 +65,18 @@ func TestProcessConfigRepeatedDeviceID(t *testing.T) {
 	}
 }
 
+func TestProcessConfigNoHTTPPort(t *testing.T) {
+	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_no_web_server/")
+	_, err := ReadConfig()
+	if err == nil {
+		t.Errorf("ReadConfig method without web server config should fail.")
+	} else {
+		if err.Error() != "Fatal error config: no web_server port was found." {
+			t.Errorf("Error should be \"Fatal error config: no web_server port was found.\" but error was '%s'.", err.Error())
+		}
+	}
+}
+
 func TestProcessConfigOK(t *testing.T) {
 	os.Setenv("ALARM_MANAGER_CONFIG_FILE_LOCATION", "./config_files_test/config_ok/")
 	_, err := ReadConfig()

@@ -34,6 +34,7 @@ type ChangeModeResponse struct {
 
 type Device interface {
 	GetDeviceInfo(http.Client) ([]byte, error)
+	GetDeviceID() string
 	RetrieveToken(http.Client) error
 	GetDeviceType() string
 	GetDeviceName() string
@@ -54,6 +55,10 @@ type TuyaDevice struct {
 
 func (device *TuyaDevice) GetDeviceType() string {
 	return device.DeviceType
+}
+
+func (device *TuyaDevice) GetDeviceID() string {
+	return device.DeviceID
 }
 
 func (device *TuyaDevice) GetDeviceName() string {
