@@ -79,5 +79,6 @@ func main() {
 	apiRouter.Mount("/devices", deviceManager.Routes())
 
 	go updateStatus(&deviceManager, client)
-	http.ListenAndServe(":3000", apiRouter)
+	listenString := fmt.Sprintf(":%d", config.WebPort)
+	http.ListenAndServe(listenString, apiRouter)
 }

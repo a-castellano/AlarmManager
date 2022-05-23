@@ -116,6 +116,6 @@ func ReadConfig() (Config, error) {
 			return config, errors.New("Fatal error config: no web_server " + webServerVariable + " was found.")
 		}
 	}
-
+	config.WebPort = viper.GetInt("web_server.port")
 	return config, nil
 }
