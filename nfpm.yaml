@@ -5,7 +5,7 @@ version: "v0.0.1"
 section: "default"
 priority: "extra"
 provides:
-- alarmmanager
+- windmaker-alarmmanager
 maintainer: "Álvaro Castellano Vela <alvaro.castellano.vela@gmail.com>"
 description: |
   Alarm Manager Service.
@@ -15,7 +15,7 @@ license: "BSD 2"
 changelog: "changelog.yaml"
 contents:
 - src: ./AlarmManager
-  dst: /usr/local/bin/alarmmanager
+  dst: /usr/local/bin/windmaker-alarmmanager
 - src: ./packaging/deb/default/windmaker-alarmmanager
   dst: /etc/default/windmaker-alarmmanager
 - src: ./packaging/deb/systemd/windmaker-alarmmanager.service
