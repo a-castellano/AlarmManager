@@ -1,3 +1,508 @@
+- semver: 0.0.2
+  date: 2022-05-24T08:34:22.285295329+02:00
+  packager: ""
+  changes:
+  - commit: 2654fae2efd6a7baa213adff21a621130ce0c2ff
+    note: |-
+      Merge branch 'update_readme' into 'develop'
+
+      Update readme
+
+      See merge request a-castellano/AlarmManager!9
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: a77b67602ef5f3a52cc4e7c06108889bdbc330ef
+    note: |-
+      Merge branch 'status_management' into 'develop'
+
+      Do not update status if it is not going to change
+
+      See merge request a-castellano/AlarmManager!8
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 40ef5e2d8128de8e95e7c15b1afa34e8a6a89fec
+    note: |-
+      Merge branch 'package' into 'develop'
+
+      Package
+
+      See merge request a-castellano/AlarmManager!7
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 397456c3436ce370320f3dfd1815274f19482fb0
+    note: |-
+      Merge branch 'web_server' into 'develop'
+
+      Web server
+
+      See merge request a-castellano/AlarmManager!6
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 349c6f0b08488aa4ee526ee64481a4c02be62fed
+    note: |-
+      Merge branch 'change_alarm_mode' into 'develop'
+
+      Change alarm mode
+
+      See merge request a-castellano/AlarmManager!5
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b873becaf6c4c4b209a1959adc4ae6a9161544e5
+    note: |-
+      Merge branch 'store_device_info' into 'develop'
+
+      Store device info
+
+      See merge request a-castellano/AlarmManager!4
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 92012ddd897d3b897ba9aee4ec4ea4998400c4f0
+    note: |-
+      Merge branch 'refresh_token' into 'develop'
+
+      Refresh token
+
+      See merge request a-castellano/AlarmManager!3
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 811afe73c8e6f7790fcd4d80232d59c9692f23c9
+    note: |-
+      Merge branch 'connect_with_tuya' into 'develop'
+
+      Connect with tuya
+
+      See merge request a-castellano/AlarmManager!2
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: aef5c7b8c397f87703d00656317791288c2f57f3
+    note: |-
+      Merge branch 'read_config' into 'develop'
+
+      Read config
+
+      See merge request a-castellano/AlarmManager!1
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8ccf6032b89301ba05bb27c65e845b224952f995
+    note: Update Readme.md with actual repo link
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f5ad83cc6f2864fc5c7ed9c1d28ebbdef3ea17c6
+    note: Initial commit
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 558cb8c369b13145b8fa2cef485e64ee34a44c28
+    note: Include config_files_test
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 5f4fedf83a0b1ddb73fa7900307baadc430559a0
+    note: Write more tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: bde1fc3b88101badaa855e6651a5eea81578c776
+    note: Write two more tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b8417a224845e827014b82a4d804526e4fe37ed7
+    note: Include config test files, remov eintegration tests step from ci/cd config
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f7c7cf14b5c23ea342a7776fb49a807a526c94ad
+    note: Write config reade and first tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 0eed46a21e8e1aa93c19b760710d56c33c16297e
+    note: Device Namager
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f470e08945fc7ce71d2450b1a565399edea84c4e
+    note: Test device token and info retrieval
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: a9395f98381017902fdf68d0158cd4b5baebb5a4
+    note: Start device manager definition
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: d01e525925ad315b35ac3b4c26e9173a71881083
+    note: Check failed token retrievement
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 965a260dfd0d5b3d776e4f10b896d9d41d2fa003
+    note: First test for token generation
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 9541e2219ed1edcf5dbb2d121d4e473027c6614f
+    note: Adjust alarm values
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c2cc83139fc2e793bed452f75bf94c0725387af3
+    note: Read device information from tuya cloud platform
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: d749034c95d0cdbdf2e55fa291ded6d9692367f5
+    note: Crean some comments
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e13f4a37830547e070d79e85b1c146b4eb80d44e
+    note: Test refresh token
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8d0100de595000ac5fa928c9e63bae81c6c5d70b
+    note: Create refresh token
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 62be886d20c96ca6c25aa430b930db47d0170be4
+    note: Test alarm states
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: ff5199fa859079550c9de36f6ee0b32b1bf6d3c0
+    note: TestGetDeviceName
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c2abc771b14fc79431502e07059fe4aa2bc2b808
+    note: Testing device info
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 1940e81c7d5512ae6c77d8ad4010ca324bcce469
+    note: Update gitignore
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b3501dd413979f4f0d726fb65cbf43de8d644af3
+    note: Remove coverage files
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b0e0d070ebf7359ed43acdebeae2b25b428511ea
+    note: Test device start
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 98029e88c11a8644b015dc0eb178037b30c07df7
+    note: Test AddDevice
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: ea60a2e7865973896b0ac295be5f01830f79e4e8
+    note: TestGetToken
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b1c2017ef6b2398cf82d809a7004cb356f3a3e73
+    note: DeviceManager uses tuyadevice Interface
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b034bbfb513b74ca5fa87b30b92376d12c0d0d19
+    note: DeviceManager uses now and interface for device instad of tuyaDevice struct
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 333e85ded36497a9ee4cafbae121a265e07ac88e
+    note: Validate devices
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b776f28c185478396bfb9e29e36672809774b972
+    note: Change alarm mode
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b39fb9a42ca02b0dcd0bf211994b2aa5ac17a764
+    note: Change Alarm mode
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 4b4bea4881426081893ca579a01f282a336620d7
+    note: Update go depences
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c42f49bec06da3b048419ecec382cfa31df354c9
+    note: Make web port eligible by config
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: da64ba0e019d0f71b6b41fab6158cfec19ee6d6e
+    note: Make web_server post configurable
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f3f857952db82afef4540e28352c46333ff84ba4
+    note: Manage status code
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 6b11e687df8c7bf9b35c5deaed5af8c93723fa9c
+    note: Fix unit tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 3c467e86814c9c191b2706e608cfa3fab4b9e3d9
+    note: Fix lint
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 4de43800fcf69a12666a98a7141c5567efffb867
+    note: Change device status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8cd2d64f4eacbe838756d00d874cdf71ae86fe0b
+    note: Update Device status earch 20 seconds
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e33f7bfeb00fcd72f5ef3c570cb821050bd0dde0
+    note: Show if device is online and implement mutex when retireving and changing status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 27d5421c707f618839adfa1f370d9e068ccd91b0
+    note: Show davice status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: bb7b396a633dfe9e98873f97090e41ee28effb71
+    note: Make changes by id, not by name
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 45d7400dc1ddc470e36278058f4070c36a114862
+    note: List devices
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e21d3b2f617fc472edd3a0a6797abde0a04e48e7
+    note: Retrive token on each rerieve info request
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 7876899387d7bf08d4c9369cb88576d4d8deb0a0
+    note: Fix postinstall scripts
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 81141e87899cdab786c5f308342648f343e98e75
+    note: Prepare package
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 836bb26d06ffa279a4ae653b4c0b84716a133ce0
+    note: Do not update status if it is not going to change
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 19b1c2790416cd70a191a89e40178784a4f9b1a8
+    note: Update Readme
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 41ff30915871af0b0d649f96237d41fd7c03ad18
+    note: Add badges
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
 - semver: 0.0.1
   date: 2022-05-23T22:26:50.400693037+02:00
   packager: ""
@@ -410,6 +915,511 @@
       email: alvaro.castellano.vela@gmail.com
   - commit: 45d7400dc1ddc470e36278058f4070c36a114862
     note: List devices
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+- semver: 0.0.1
+  date: 2022-05-24T08:34:20.507149491+02:00
+  packager: ""
+  changes:
+  - commit: 2654fae2efd6a7baa213adff21a621130ce0c2ff
+    note: |-
+      Merge branch 'update_readme' into 'develop'
+
+      Update readme
+
+      See merge request a-castellano/AlarmManager!9
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: a77b67602ef5f3a52cc4e7c06108889bdbc330ef
+    note: |-
+      Merge branch 'status_management' into 'develop'
+
+      Do not update status if it is not going to change
+
+      See merge request a-castellano/AlarmManager!8
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 40ef5e2d8128de8e95e7c15b1afa34e8a6a89fec
+    note: |-
+      Merge branch 'package' into 'develop'
+
+      Package
+
+      See merge request a-castellano/AlarmManager!7
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 397456c3436ce370320f3dfd1815274f19482fb0
+    note: |-
+      Merge branch 'web_server' into 'develop'
+
+      Web server
+
+      See merge request a-castellano/AlarmManager!6
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 349c6f0b08488aa4ee526ee64481a4c02be62fed
+    note: |-
+      Merge branch 'change_alarm_mode' into 'develop'
+
+      Change alarm mode
+
+      See merge request a-castellano/AlarmManager!5
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b873becaf6c4c4b209a1959adc4ae6a9161544e5
+    note: |-
+      Merge branch 'store_device_info' into 'develop'
+
+      Store device info
+
+      See merge request a-castellano/AlarmManager!4
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 92012ddd897d3b897ba9aee4ec4ea4998400c4f0
+    note: |-
+      Merge branch 'refresh_token' into 'develop'
+
+      Refresh token
+
+      See merge request a-castellano/AlarmManager!3
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 811afe73c8e6f7790fcd4d80232d59c9692f23c9
+    note: |-
+      Merge branch 'connect_with_tuya' into 'develop'
+
+      Connect with tuya
+
+      See merge request a-castellano/AlarmManager!2
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: aef5c7b8c397f87703d00656317791288c2f57f3
+    note: |-
+      Merge branch 'read_config' into 'develop'
+
+      Read config
+
+      See merge request a-castellano/AlarmManager!1
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8ccf6032b89301ba05bb27c65e845b224952f995
+    note: Update Readme.md with actual repo link
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f5ad83cc6f2864fc5c7ed9c1d28ebbdef3ea17c6
+    note: Initial commit
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: GitHub
+      email: noreply@github.com
+  - commit: 558cb8c369b13145b8fa2cef485e64ee34a44c28
+    note: Include config_files_test
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 5f4fedf83a0b1ddb73fa7900307baadc430559a0
+    note: Write more tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: bde1fc3b88101badaa855e6651a5eea81578c776
+    note: Write two more tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b8417a224845e827014b82a4d804526e4fe37ed7
+    note: Include config test files, remov eintegration tests step from ci/cd config
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f7c7cf14b5c23ea342a7776fb49a807a526c94ad
+    note: Write config reade and first tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 0eed46a21e8e1aa93c19b760710d56c33c16297e
+    note: Device Namager
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f470e08945fc7ce71d2450b1a565399edea84c4e
+    note: Test device token and info retrieval
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: a9395f98381017902fdf68d0158cd4b5baebb5a4
+    note: Start device manager definition
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: d01e525925ad315b35ac3b4c26e9173a71881083
+    note: Check failed token retrievement
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 965a260dfd0d5b3d776e4f10b896d9d41d2fa003
+    note: First test for token generation
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 9541e2219ed1edcf5dbb2d121d4e473027c6614f
+    note: Adjust alarm values
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c2cc83139fc2e793bed452f75bf94c0725387af3
+    note: Read device information from tuya cloud platform
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: d749034c95d0cdbdf2e55fa291ded6d9692367f5
+    note: Crean some comments
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e13f4a37830547e070d79e85b1c146b4eb80d44e
+    note: Test refresh token
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8d0100de595000ac5fa928c9e63bae81c6c5d70b
+    note: Create refresh token
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 62be886d20c96ca6c25aa430b930db47d0170be4
+    note: Test alarm states
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: ff5199fa859079550c9de36f6ee0b32b1bf6d3c0
+    note: TestGetDeviceName
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c2abc771b14fc79431502e07059fe4aa2bc2b808
+    note: Testing device info
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 1940e81c7d5512ae6c77d8ad4010ca324bcce469
+    note: Update gitignore
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b3501dd413979f4f0d726fb65cbf43de8d644af3
+    note: Remove coverage files
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b0e0d070ebf7359ed43acdebeae2b25b428511ea
+    note: Test device start
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 98029e88c11a8644b015dc0eb178037b30c07df7
+    note: Test AddDevice
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: ea60a2e7865973896b0ac295be5f01830f79e4e8
+    note: TestGetToken
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b1c2017ef6b2398cf82d809a7004cb356f3a3e73
+    note: DeviceManager uses tuyadevice Interface
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b034bbfb513b74ca5fa87b30b92376d12c0d0d19
+    note: DeviceManager uses now and interface for device instad of tuyaDevice struct
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 333e85ded36497a9ee4cafbae121a265e07ac88e
+    note: Validate devices
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b776f28c185478396bfb9e29e36672809774b972
+    note: Change alarm mode
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: b39fb9a42ca02b0dcd0bf211994b2aa5ac17a764
+    note: Change Alarm mode
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 4b4bea4881426081893ca579a01f282a336620d7
+    note: Update go depences
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: c42f49bec06da3b048419ecec382cfa31df354c9
+    note: Make web port eligible by config
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: da64ba0e019d0f71b6b41fab6158cfec19ee6d6e
+    note: Make web_server post configurable
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: f3f857952db82afef4540e28352c46333ff84ba4
+    note: Manage status code
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 6b11e687df8c7bf9b35c5deaed5af8c93723fa9c
+    note: Fix unit tests
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 3c467e86814c9c191b2706e608cfa3fab4b9e3d9
+    note: Fix lint
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 4de43800fcf69a12666a98a7141c5567efffb867
+    note: Change device status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 8cd2d64f4eacbe838756d00d874cdf71ae86fe0b
+    note: Update Device status earch 20 seconds
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e33f7bfeb00fcd72f5ef3c570cb821050bd0dde0
+    note: Show if device is online and implement mutex when retireving and changing status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 27d5421c707f618839adfa1f370d9e068ccd91b0
+    note: Show davice status
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: bb7b396a633dfe9e98873f97090e41ee28effb71
+    note: Make changes by id, not by name
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 45d7400dc1ddc470e36278058f4070c36a114862
+    note: List devices
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: e21d3b2f617fc472edd3a0a6797abde0a04e48e7
+    note: Retrive token on each rerieve info request
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 7876899387d7bf08d4c9369cb88576d4d8deb0a0
+    note: Fix postinstall scripts
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 81141e87899cdab786c5f308342648f343e98e75
+    note: Prepare package
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 836bb26d06ffa279a4ae653b4c0b84716a133ce0
+    note: Do not update status if it is not going to change
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 19b1c2790416cd70a191a89e40178784a4f9b1a8
+    note: Update Readme
+    author:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+    committer:
+      name: Álvaro Castellano Vela
+      email: alvaro.castellano.vela@gmail.com
+  - commit: 41ff30915871af0b0d649f96237d41fd7c03ad18
+    note: Add badges
     author:
       name: Álvaro Castellano Vela
       email: alvaro.castellano.vela@gmail.com
