@@ -151,6 +151,10 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 
 	for deviceID, device := range manager.DevicesInfo {
 		deviceName := device.GetDeviceName()
+		tokenError := device.RetrieveToken(client)
+		if tokenError != nil {
+			return tokenError
+		}
 		log.Println("Retrieving info from device ", deviceName)
 		deviceInfo, deviceInfoErr := device.GetDeviceInfo(client)
 		log.Println(string(deviceInfo))
