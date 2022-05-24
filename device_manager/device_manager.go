@@ -315,23 +315,29 @@ func (manager *DeviceManager) UpdateStatus(w http.ResponseWriter, r *http.Reques
 		w.WriteHeader(400)
 	} else {
 		var client http.Client
-		changeModeErr := manager.ChangeMode(client, deviceID, deviceChangeMode.Mode)
-		if changeModeErr != nil {
-			response.Message = changeModeErr.Error()
+		currentDeviceSratus := AlarmModeAlarmValues[AlarmModeMap[deviceChangeMode.Mode]]
+		if currentDeviceSratus == AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode] {
+			response.Success = true
+			response.Message = "Device status has not changed."
 			w.WriteHeader(400)
 		} else {
-			time.Sleep(1 * time.Second)
-			retrieveInfoError := manager.RetrieveInfo(client)
-			if retrieveInfoError != nil {
-				response.Success = false
-				response.Message = retrieveInfoError.Error()
+			changeModeErr := manager.ChangeMode(client, deviceID, deviceChangeMode.Mode)
+			if changeModeErr != nil {
+				response.Message = changeModeErr.Error()
 				w.WriteHeader(400)
 			} else {
-				response.Success = true
-				response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
-				response.Online = manager.AlarmsInfo[deviceID].ShowInfo().Online
-				response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
-
+				time.Sleep(1 * time.Second)
+				retrieveInfoError := manager.RetrieveInfo(client)
+				if retrieveInfoError != nil {
+					response.Success = false
+					response.Message = retrieveInfoError.Error()
+					w.WriteHeader(400)
+				} else {
+					response.Success = true
+					response.Firing = manager.AlarmsInfo[deviceID].ShowInfo().Firing
+					response.Online = manager.AlarmsInfo[deviceID].ShowInfo().Online
+					response.Mode = AlarmModeAlarmValues[manager.AlarmsInfo[deviceID].ShowInfo().Mode]
+				}
 			}
 		}
 	}
