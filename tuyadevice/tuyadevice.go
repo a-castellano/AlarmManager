@@ -111,7 +111,19 @@ func (device *TuyaDevice) updateToken(client http.Client) error {
 }
 
 func (device *TuyaDevice) RetrieveToken(client http.Client) error {
-	if device.TokenExpireTime == 0 { // New token
+	var retriveNewToken bool = false
+	if device.TokenExpireTime == 0 {
+		retriveNewToken = true
+	} else {
+		now := time.Now()
+		currentTimestamp := now.Unix()
+		if device.TokenExpireTime-currentTimestamp < 0 {
+			log.Println("Device " + device.Name + " token has expired, retrive new token.")
+			retriveNewToken = true
+		}
+	}
+	if retriveNewToken { // New token
+		device.Token = ""
 		body := []byte(``)
 		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token?grant_type=1", bytes.NewReader(body))
 
@@ -133,9 +145,6 @@ func (device *TuyaDevice) RetrieveToken(client http.Client) error {
 		device.TokenExpireTime = now.Unix() + int64(ret.Result.TokenExpireTime)
 		device.RefreshToken = ret.Result.RefreshToken
 
-	} else {
-		// refresh token
-		return device.updateToken(client)
 	}
 	return nil
 
