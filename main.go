@@ -23,7 +23,7 @@ func updateStatus(deviceManager *device_manager.DeviceManager, client http.Clien
 
 func main() {
 
-	var version string = "0.1"
+	var version string = "0.2"
 
 	client := http.Client{
 		Timeout: time.Second * 5, // Maximum of 5 secs
