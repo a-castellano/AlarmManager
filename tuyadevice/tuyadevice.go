@@ -73,45 +73,20 @@ func (device *TuyaDevice) Validate() error {
 	return nil
 }
 
-func (device *TuyaDevice) updateToken(client http.Client) error {
-
-	now := time.Now()
-	currentTimestamp := now.Unix()
-	log.Println(currentTimestamp)
-	log.Println(device.TokenExpireTime)
-	log.Println(device.TokenExpireTime - currentTimestamp)
-	if device.TokenExpireTime-currentTimestamp < 0 {
-		log.Println("Device " + device.Name + " token has expired, retrive new token.")
-		body := []byte(``)
-		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token/"+device.RefreshToken, nil)
-
-		device.buildHeader(req, body)
-		resp, err := client.Do(req)
-		if err != nil {
-			return err
-		}
-		defer resp.Body.Close()
-		log.Println(resp.Body)
-		bs, _ := ioutil.ReadAll(resp.Body)
-		ret := TokenResponse{}
-		unmarshalErr := json.Unmarshal(bs, &ret)
-		if unmarshalErr != nil {
-			return unmarshalErr
-		}
-		log.Println("refresh token GET response:", string(bs))
-		device.Token = ret.Result.AccessToken
-		now := time.Now() // current local time
-		device.TokenExpireTime = now.Unix() + int64(ret.Result.TokenExpireTime)
-		device.RefreshToken = ret.Result.RefreshToken
-		log.Println("New token expire time: ", device.TokenExpireTime)
-	} else {
-		log.Println("Device " + device.Name + " token has not expired yet.")
-	}
-	return nil
-}
-
 func (device *TuyaDevice) RetrieveToken(client http.Client) error {
-	if device.TokenExpireTime == 0 { // New token
+	var retriveNewToken bool = false
+	if device.TokenExpireTime == 0 {
+		retriveNewToken = true
+	} else {
+		now := time.Now()
+		currentTimestamp := now.Unix()
+		if device.TokenExpireTime-currentTimestamp < 0 {
+			log.Println("Device " + device.Name + " token has expired, retrive new token.")
+			retriveNewToken = true
+		}
+	}
+	if retriveNewToken { // New token
+		device.Token = ""
 		body := []byte(``)
 		req, _ := http.NewRequest("GET", device.Host+"/v1.0/token?grant_type=1", bytes.NewReader(body))
 
@@ -133,9 +108,6 @@ func (device *TuyaDevice) RetrieveToken(client http.Client) error {
 		device.TokenExpireTime = now.Unix() + int64(ret.Result.TokenExpireTime)
 		device.RefreshToken = ret.Result.RefreshToken
 
-	} else {
-		// refresh token
-		return device.updateToken(client)
 	}
 	return nil
 
