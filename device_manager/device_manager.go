@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -175,7 +176,8 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 			alarmInfo.AlarmInfo.Longitude = alarmInfo.Result.Longitude
 			alarmInfo.AlarmInfo.Online = alarmInfo.Result.Online
 			// Check master mode value
-			var masterStateSet, masterModeSet bool
+
+			var masterStateSet, masterModeSet, alarmMessageSet bool
 			for _, statusTuple := range alarmInfo.Result.Status {
 				if masterStateSet && masterModeSet {
 					break
@@ -200,8 +202,15 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 						masterStateValue := fmt.Sprintf("%v", statusTuple.Value)
 						alarmInfo.AlarmInfo.Firing = masterStateValue == "alarm"
 						masterStateSet = true
+					case "alarm_msg":
+						alarmMessageValue := fmt.Sprintf("%v", statusTuple.Value)
+						alarmMessageSet = strings.HasPrefix(alarmMessageValue, "AF")
 					}
+
 				}
+			}
+			if alarmInfo.AlarmInfo.Firing == false && alarmMessageSet == true {
+				alarmInfo.AlarmInfo.Firing = true
 			}
 			manager.AlarmsInfo[deviceID] = alarmInfo
 		default:
