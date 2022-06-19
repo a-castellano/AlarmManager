@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -203,7 +204,7 @@ func (manager *DeviceManager) RetrieveInfo(client http.Client) error {
 						masterStateSet = true
 					case "alarm_msg":
 						alarmMessageValue := fmt.Sprintf("%v", statusTuple.Value)
-						alarmMessageSet = alarmMessageValue != "AEEAUABQACAAQQByAG0AYQBkAG8"
+						alarmMessageSet = strings.HasPrefix(alarmMessageValue, "AF")
 					}
 
 				}
